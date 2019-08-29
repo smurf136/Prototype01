@@ -8,7 +8,17 @@ let bullets;
 let Bullet;
 let amount;
 let enemy;
+let enemy1;
+let enemy2;
+let enemy3;
+let enemy4;
+let enemy5;
 let life = true;
+let life1 = true;
+let life2 = true;
+let life3 = true;
+let life4 = true;
+let life5 = true;
 class Map01 extends Phaser.Scene {
     constructor(test) {
         super({
@@ -27,9 +37,20 @@ class Map01 extends Phaser.Scene {
         // bg01 = this.add.tileSprite(100, 50, 600, 1000, 'bg01')
         bg01 = this.add.tileSprite(620,300,800,600,'bg01').setScale(2)
         player = this.physics.add.sprite(170, 680, 'player').setSize(1.5).setScale(1.5)
-        // enemy = this.physics.add
+        enemy = this.physics.add.group()
+        enemy.create(30, 50, 'enemy')
+        enemy.create(80, 50, 'enemy')
+        enemy.create(130, 50, 'enemy')
+        enemy.create(180, 50, 'enemy')
+        enemy.create(230, 50, 'enemy')
+        enemy.create(280, 50, 'enemy')
         // enemy.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
-        enemy = this.physics.add.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
+        // enemy = this.physics.add.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
+        // enemy1 = this.physics.add.sprite(30, 50, 'enemy').setSize(1.5).setScale(1.5)
+        // enemy2 = this.physics.add.sprite(80, 50, 'enemy').setSize(1.5).setScale(1.5)
+        // enemy3 = this.physics.add.sprite(130, 50, 'enemy').setSize(1.5).setScale(1.5)
+        // enemy4 = this.physics.add.sprite(180, 50, 'enemy').setSize(1.5).setScale(1.5)
+        // enemy5 = this.physics.add.sprite(230, 50, 'enemy').setSize(1.5).setScale(1.5)
         // enemy = this.physics.add.sprite(20, 50, 'enemy').setSize(1.5).setScale(1.5)
         // enemy = this.physics.add.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
         // enemy = this.physics.add.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
@@ -104,15 +125,79 @@ class Map01 extends Phaser.Scene {
         })
         
         cursors = this.input.keyboard.createCursorKeys()
-        enemy.anims.play('enemy')
-        this.physics.add.collider(bullets, enemy, this.hit)
+        enemy.playAnimation('enemy')
+        // enemy1.anims.play('enemy')
+        // enemy2.anims.play('enemy')
+        // enemy3.anims.play('enemy')
+        // enemy4.anims.play('enemy')
+        // enemy5.anims.play('enemy')
+        this.physics.add.collider(bullets, enemy, this.fired)
+        // this.physics.add.collider(bullets, enemy1, this.fired1)
+        // this.physics.add.collider(bullets, enemy2, this.fired2)
+        // this.physics.add.collider(bullets, enemy3, this.fired3)
+        // this.physics.add.collider(bullets, enemy4, this.fired4)
+        // this.physics.add.collider(bullets, enemy5, this.fired5)
+        console.log(enemy.getLength())
 
     }
 
-    hit(){
+    fired(){
+        if(){
+            console.log('touch')
+        }
         life = false;
-        enemy.setTint(0x000000);
-        enemy.destroy()
+        // enemy.setTint(0x000000);
+        // enemy2.setTint(0x000000);
+        // enemy3.setTint(0x000000);
+        // enemy4.setTint(0x000000);
+        // enemy5.setTint(0x000000);
+        // enemy.clear(true, false)
+        enemy.remove()
+    }
+    fired1(){
+        life1 = false;
+        enemy1.setTint(0x000000);
+        // enemy2.setTint(0x000000);
+        // enemy3.setTint(0x000000);
+        // enemy4.setTint(0x000000);
+        // enemy5.setTint(0x000000);
+        enemy1.destroy()
+    }
+    fired2(){
+        life2 = false;
+        enemy2.setTint(0x000000);
+        // enemy2.setTint(0x000000);
+        // enemy3.setTint(0x000000);
+        // enemy4.setTint(0x000000);
+        // enemy5.setTint(0x000000);
+        enemy2.destroy()
+    }
+    fired3(){
+        life3 = false;
+        enemy3.setTint(0x000000);
+        // enemy2.setTint(0x000000);
+        // enemy3.setTint(0x000000);
+        // enemy4.setTint(0x000000);
+        // enemy5.setTint(0x000000);
+        enemy3.destroy()
+    }
+    fired4(){
+        life4 = false;
+        enemy4.setTint(0x000000);
+        // enemy2.setTint(0x000000);
+        // enemy3.setTint(0x000000);
+        // enemy4.setTint(0x000000);
+        // enemy5.setTint(0x000000);
+        enemy4.destroy()
+    }
+    fired5(){
+        life5 = false;
+        enemy5.setTint(0x000000);
+        // enemy2.setTint(0x000000);
+        // enemy3.setTint(0x000000);
+        // enemy4.setTint(0x000000);
+        // enemy5.setTint(0x000000);
+        enemy5.destroy()
     }
 
     update() {
@@ -130,6 +215,22 @@ class Map01 extends Phaser.Scene {
             enemy.angle += 5
             enemy.setVelocityY(40)
         }
+        // if(life2){
+        //     enemy2.angle += 5
+        //     enemy2.setVelocityY(40)
+        // }
+        // if(life3){
+        //     enemy3.angle += 5
+        //     enemy3.setVelocityY(40)
+        // }
+        // if(life4){
+        //     enemy4.angle += 5
+        //     enemy4.setVelocityY(40)
+        // }
+        // if(life5){
+        //     enemy5.angle += 5
+        //     enemy5.setVelocityY(40)
+        // }
         if(cursors.up.isDown){
             player.setVelocityY(-100)
             player.anims.play('turn')
