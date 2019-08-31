@@ -1,3 +1,4 @@
+let blocks;
 let time = 0;
 let bg01;
 let iter = 0;
@@ -40,13 +41,18 @@ class Map01 extends Phaser.Scene {
         // bg01 = this.add.tileSprite(100, 50, 600, 1000, 'bg01')
         bg01 = this.add.tileSprite(620,300,800,600,'bg01').setScale(2)
         player = this.physics.add.sprite(170, 680, 'player').setSize(1.5).setScale(1.5)
-        enemy = this.physics.add.group()
-        enemy.create(30, 50, 'enemy')
-        enemy.create(80, 50, 'enemy')
-        enemy.create(130, 50, 'enemy')
-        enemy.create(180, 50, 'enemy')
-        enemy.create(230, 50, 'enemy')
-        enemy.create(280, 50, 'enemy')
+        enemy = this.physics.add.group({
+            key: 'enemy',
+            repeat: 5,
+            setXY: {x: 30, y:50, stepX: 50}
+        })
+
+        // enemy.create(30, 50, 'enemy')
+        // enemy.create(80, 50, 'enemy')
+        // enemy.create(130, 50, 'enemy')
+        // enemy.create(180, 50, 'enemy')
+        // enemy.create(230, 50, 'enemy')
+        // enemy.create(280, 50, 'enemy')
         // enemy.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
         // enemy = this.physics.add.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
         // enemy1 = this.physics.add.sprite(30, 50, 'enemy').setSize(1.5).setScale(1.5)
@@ -82,7 +88,7 @@ class Map01 extends Phaser.Scene {
 
             update: function(time, delta){
                 this.y -= this.speed * delta;
-                if(this.y > 820){
+                if(this.y > 1000){
                     this.setActive(false)
                     this.setVisible(false)
                 }
@@ -91,7 +97,7 @@ class Map01 extends Phaser.Scene {
 
         bullets = this.physics.add.group({
             classType: Bullet,
-            // maxSize: amount,
+            // maxSize: 10,
             runChildUpdate: true
         });
 
@@ -129,19 +135,23 @@ class Map01 extends Phaser.Scene {
         
         cursors = this.input.keyboard.createCursorKeys()
         enemy.playAnimation('enemy')
-        // enemy1.anims.play('enemy')
-        // enemy2.anims.play('enemy')
-        // enemy3.anims.play('enemy')
-        // enemy4.anims.play('enemy')
-        // enemy5.anims.play('enemy')
-        this.physics.add.collider(bullets, enemy, this.fired)
+        // {
+            
+            // enemy1.anims.play('enemy')
+            // enemy2.anims.play('enemy')
+            // enemy3.anims.play('enemy')
+            // enemy4.anims.play('enemy')
+            // enemy5.anims.play('enemy')
+        // }
+        this.physics.add.collider(bullets, enemy, this.hitEnemy)
         // this.physics.add.collider(bullets, enemy1, this.fired1)
         // this.physics.add.collider(bullets, enemy2, this.fired2)
         // this.physics.add.collider(bullets, enemy3, this.fired3)
         // this.physics.add.collider(bullets, enemy4, this.fired4)
         // this.physics.add.collider(bullets, enemy5, this.fired5)
-        console.log(enemy.getLength())
-        console.log(enemy.getChildren())
+        // this.physics.add.collider(bullets, enemy, hitEnemy)
+        // console.log(enemy.getLength())
+        // console.log(enemy.getChildren())
 
         // timeEvent = this.time.addEvent({
         //     delay: 10000,
@@ -149,31 +159,28 @@ class Map01 extends Phaser.Scene {
         //     callbackScope: this,
         //     loop: true
         // })
-        childrens = enemy.children;
+        // console.log(enemy.children)
+        // childrens = enemy.children;
         // console.log(childrens)
-        for(let i = 0;i<enemy.getLength();i++){
-            console.log(childrens[i])
-        }
+        // console.log(enemy.children.entries[0])
+        // for(let i = 0;i<enemy.getLength();i++){
+        //     console.log(childrens[i])
+        // }
+        
+        // blocks.push(enemy)
     }
     
     update() {
         
         if(alive){
-            time++;
-            bullet = bullets.get().setScale(1.3);
+            bullet = bullets.get().setScale(1.3).setSize(1.3);
             if(bullet){
                 bullet.fire(player.x, player.y - 30)
             }
-            // if(time == 1000){
-            //     time = 0;
-            //     bullet.destroy()
-            // }
         }
 
-        // enemy.play('enemy', true)
-        // bullets.anims.play('fired')
+        
         if(life){
-            enemy.angle += 5
             enemy.setVelocityY(40)
         }
         // if(life2){
@@ -214,61 +221,20 @@ class Map01 extends Phaser.Scene {
         iter += 0.005
     }
 
-    bulletHit(){
-        
+    hitEnemy(bullet, enemy){
+        enemy.disableBody(true, true)
+        // for(var i = 0;i < enemy.getLength();i++){
+        //     // console.log(enemy.children.entries[i].body.blocked.down)
+        //     console.log(enemy.children.entries[1].body.touching.down)
+        //     // enemy.children.entries[0].setVisible(false)
+        //     if(enemy.children.entries[i].body.blocked.down){
+        //         // enemy.children.entries[i].body.enable = false;
+        //     }
+        // }
     }
     
-    fired(){
-        
-        life = false;
-        // enemy.body.setTint(0x000000);
-        enemy.kill()
-    }
-    fired1(){
-        life1 = false;
-        enemy1.body.setTint(0x000000);
-        // enemy2.setTint(0x000000);
-        // enemy3.setTint(0x000000);
-        // enemy4.setTint(0x000000);
-        // enemy5.setTint(0x000000);
-        enemy1.destroy()
-    }
-    fired2(){
-        life2 = false;
-        enemy2.setTint(0x000000);
-        // enemy2.setTint(0x000000);
-        // enemy3.setTint(0x000000);
-        // enemy4.setTint(0x000000);
-        // enemy5.setTint(0x000000);
-        enemy2.destroy()
-    }
-    fired3(){
-        life3 = false;
-        enemy3.setTint(0x000000);
-        // enemy2.setTint(0x000000);
-        // enemy3.setTint(0x000000);
-        // enemy4.setTint(0x000000);
-        // enemy5.setTint(0x000000);
-        enemy3.destroy()
-    }
-    fired4(){
-        life4 = false;
-        enemy4.body.setTint(0x000000);
-        // enemy2.setTint(0x000000);
-        // enemy3.setTint(0x000000);
-        // enemy4.setTint(0x000000);
-        // enemy5.setTint(0x000000);
-        enemy4.destroy()
-    }
-    fired5(){
-        life5 = false;
-        enemy5.setTint(0x000000);
-        // enemy2.setTint(0x000000);
-        // enemy3.setTint(0x000000);
-        // enemy4.setTint(0x000000);
-        // enemy5.setTint(0x000000);
-        enemy5.destroy()
-    }
+    
+   
     
 }
 
