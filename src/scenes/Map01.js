@@ -219,7 +219,7 @@ class Map01 extends Phaser.Scene {
 
     hitEnemy(bullet, enemy){
         enemy.disableBody(true, true)
-        scores += 100;
+        scores += 1001;
         textScore.setText('score : ' + scores)
         hpEnemy--;
         if(hpEnemy == 0){
