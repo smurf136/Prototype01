@@ -1,3 +1,4 @@
+let i;
 let blocks;
 let time = 0;
 let bg01;
@@ -15,7 +16,11 @@ let enemy2;
 let enemy3;
 let enemy4;
 let enemy5;
-let life = true;
+let textScore;
+let lifeScore;
+let hpPlayerScore;
+let scores = 0;
+let lifed = true;
 let life2 = true;
 let life1 = true;
 let life3 = true;
@@ -23,6 +28,10 @@ let life4 = true;
 let life5 = true;
 let timeEvent;
 let childrens;
+let timedEvent;
+let life = 2;
+let hpPlayer = 2;
+let hpEnemy = 2;
 class Map01 extends Phaser.Scene {
     constructor(test) {
         super({
@@ -38,54 +47,50 @@ class Map01 extends Phaser.Scene {
     }
 
     create() {
-        // bg01 = this.add.tileSprite(100, 50, 600, 1000, 'bg01')
+
         bg01 = this.add.tileSprite(620,300,800,600,'bg01').setScale(2)
         player = this.physics.add.sprite(170, 680, 'player').setSize(1.5).setScale(1.5)
         enemy = this.physics.add.group({
             key: 'enemy',
-            repeat: 5,
-            setXY: {x: 30, y:50, stepX: 50}
+            repeat: Phaser.Math.Between(6,10),
+            setXY: {x: Phaser.Math.Between(20, 100), y:Phaser.Math.Between(50, 100), stepX: 30, stepY: 30}
         })
 
-        // enemy.create(30, 50, 'enemy')
-        // enemy.create(80, 50, 'enemy')
-        // enemy.create(130, 50, 'enemy')
-        // enemy.create(180, 50, 'enemy')
-        // enemy.create(230, 50, 'enemy')
-        // enemy.create(280, 50, 'enemy')
-        // enemy.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
-        // enemy = this.physics.add.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
-        // enemy1 = this.physics.add.sprite(30, 50, 'enemy').setSize(1.5).setScale(1.5)
-        // enemy2 = this.physics.add.sprite(80, 50, 'enemy').setSize(1.5).setScale(1.5)
-        // enemy3 = this.physics.add.sprite(130, 50, 'enemy').setSize(1.5).setScale(1.5)
-        // enemy4 = this.physics.add.sprite(180, 50, 'enemy').setSize(1.5).setScale(1.5)
-        // enemy5 = this.physics.add.sprite(230, 50, 'enemy').setSize(1.5).setScale(1.5)
-        // enemy = this.physics.add.sprite(20, 50, 'enemy').setSize(1.5).setScale(1.5)
-        // enemy = this.physics.add.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
-        // enemy = this.physics.add.sprite(10, 50, 'enemy').setSize(1.5).setScale(1.5)
-        // enemy = this.physics.add.staticGroup()
-        // enemy.create(10, 50, 'enemy')
-
-
+        // this.time.addEvent({
+        //     delay: 500,
+        //     callback: ()=>{
+        //         enemy1 = this.physics.add.group({
+        //             key: 'enemy',
+        //             repeat: Phaser.Math.Between(6,10),
+        //             setXY: { x: Phaser.Math.Between(20, 100), y: Phaser.Math.Between(50, 100), stepX: 30, stepY: 30 }
+        //         })
+        //     },
+        //     callbackScope: enemy1.setVelocityY(300),
+        //     loop: false
+        // })
+        
         player.setCollideWorldBounds(true)
-
+        
         Bullet = new Phaser.Class({
-
+            
             Extends: Phaser.GameObjects.Image,
-
+            
             initialize:
-
+            
+            
+            
             function Bullet(scene){
                 Phaser.GameObjects.Image.call(this, scene, 0, 0, 'bullet')
                 this.speed = Phaser.Math.GetSpeed(600, 1)
+                
             },
-
+            
             fire: function (x,y){
                 this.setPosition(x, y)
                 this.setActive(true)
                 this.setVisible(true)
             },
-
+            
             update: function(time, delta){
                 this.y -= this.speed * delta;
                 if(this.y > 1000){
@@ -94,13 +99,13 @@ class Map01 extends Phaser.Scene {
                 }
             }
         });
-
+        
         bullets = this.physics.add.group({
             classType: Bullet,
             // maxSize: 10,
             runChildUpdate: true
         });
-
+        
         this.anims.create({
             key: 'turn',
             frames: [ { key: 'player', frame: 2 } ],
@@ -135,82 +140,73 @@ class Map01 extends Phaser.Scene {
         
         cursors = this.input.keyboard.createCursorKeys()
         enemy.playAnimation('enemy')
-        // {
-            
-            // enemy1.anims.play('enemy')
-            // enemy2.anims.play('enemy')
-            // enemy3.anims.play('enemy')
-            // enemy4.anims.play('enemy')
-            // enemy5.anims.play('enemy')
-        // }
+        
         this.physics.add.collider(bullets, enemy, this.hitEnemy)
-        // this.physics.add.collider(bullets, enemy1, this.fired1)
-        // this.physics.add.collider(bullets, enemy2, this.fired2)
-        // this.physics.add.collider(bullets, enemy3, this.fired3)
-        // this.physics.add.collider(bullets, enemy4, this.fired4)
-        // this.physics.add.collider(bullets, enemy5, this.fired5)
-        // this.physics.add.collider(bullets, enemy, hitEnemy)
-        // console.log(enemy.getLength())
-        // console.log(enemy.getChildren())
-
-        // timeEvent = this.time.addEvent({
-        //     delay: 10000,
-        //     callback: this.fired(),
-        //     callbackScope: this,
-        //     loop: true
-        // })
-        // console.log(enemy.children)
-        // childrens = enemy.children;
-        // console.log(childrens)
-        // console.log(enemy.children.entries[0])
-        // for(let i = 0;i<enemy.getLength();i++){
-        //     console.log(childrens[i])
-        // }
-        
-        // blocks.push(enemy)
-    }
-    
-    update() {
-        
-        if(alive){
-            bullet = bullets.get().setScale(1.3).setSize(1.3);
-            if(bullet){
+        // this.physics.add.collider(player, enemy, function(){
+            //     player.setTint(0xff0000)
+            //     player.body.reset()
+            //     timedEvent.remove()
+            // })
+            this.physics.add.collider(player, enemy, this.enemyHit)
+            
+            // timedEvent = this.time.addEvent({ delay: 50, callback: this.enemyHit, callbackScope: this, loop: true });
+            
+            console.log(enemy)
+            // console.log(enemy.getLength())
+            // console.log(enemy.getChildren())
+            
+            // console.log(enemy.children)
+            // childrens = enemy.children;
+            // console.log(childrens)
+            
+            // for(let i = 0;i<enemy.getLength();i++){
+                //     console.log(childrens[i])
+                // }
+                enemy.setVelocityY(40)
+                
+                textScore = this.add.text(16, 16, 'score : 0' ,{ fontSize: '32 px', fil: '#000' })
+                lifeScore = this.add.text(250, 16, 'life x 2' ,{ fontSize: '32 px', fil: '#000' })
+                hpPlayerScore = this.add.text(100, 16, 'hp : 2' ,{ fontSize: '32 px', fil: '#000' })
+            }
+            
+            update() {
+                
+                
+                if(alive){
+                    bullet = bullets.get().setScale(1.3).setSize(1.3);
+                    if(bullet){
                 bullet.fire(player.x, player.y - 30)
             }
         }
 
-        
-        if(life){
-            enemy.setVelocityY(40)
+        if(hpPlayer == 0){
+            life--;
+            if(life != 0){
+                hpPlayer = 2;
+            }
         }
-        // if(life2){
-        //     enemy2.angle += 5
-        //     enemy2.setVelocityY(40)
-        // }
-        // if(life3){
-        //     enemy3.angle += 5
-        //     enemy3.setVelocityY(40)
-        // }
-        // if(life4){
-        //     enemy4.angle += 5
-        //     enemy4.setVelocityY(40)
-        // }
-        // if(life5){
-        //     enemy5.angle += 5
-        //     enemy5.setVelocityY(40)
-        // }
+
+        if(life == 0){
+            console.log('dead')
+            this.scene.pause()
+            player.setTint(0xff0000)
+        }
+
+        hpPlayerScore.setText('hp : ' + hpPlayer)
+        lifeScore.setText('life : ' + life)
+        
         if(cursors.up.isDown){
-            player.setVelocityY(-100)
+            player.setVelocityY(-300)
             player.anims.play('turn')
             
         }else if(cursors.down.isDown){
-            player.setVelocityY(100)
+            player.setVelocityY(300)
             player.anims.play('turn')
         }else if(cursors.left.isDown){
-            player.setVelocityX(-100)
+            player.setVelocityX(-300)
             player.anims.play('left')
         }else if(cursors.right.isDown){
-            player.setVelocityX(100)
+            player.setVelocityX(300)
             player.anims.play('right')
         }else{
             player.setVelocityX(0)
@@ -223,6 +219,12 @@ class Map01 extends Phaser.Scene {
 
     hitEnemy(bullet, enemy){
         enemy.disableBody(true, true)
+        scores += 100;
+        textScore.setText('score : ' + scores)
+        hpEnemy--;
+        if(hpEnemy == 0){
+            
+        }
         // for(var i = 0;i < enemy.getLength();i++){
         //     // console.log(enemy.children.entries[i].body.blocked.down)
         //     console.log(enemy.children.entries[1].body.touching.down)
@@ -231,6 +233,14 @@ class Map01 extends Phaser.Scene {
         //         // enemy.children.entries[i].body.enable = false;
         //     }
         // }
+    }
+
+    enemyHit(player, enemy){
+        if(life > 0){
+            player.body.reset(170, 680)
+        }
+        enemy.disableBody(true, true)
+        hpPlayer--;
     }
     
     
