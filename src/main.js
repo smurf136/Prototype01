@@ -1,5 +1,6 @@
 import 'phaser';
 import Map01 from './scenes/Map01';
+import test from './scenes/test';
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -17,7 +18,8 @@ const config = {
         }
     },
     scene: [
-        Map01
+        Map01,
+        test
     ]
 };
 
